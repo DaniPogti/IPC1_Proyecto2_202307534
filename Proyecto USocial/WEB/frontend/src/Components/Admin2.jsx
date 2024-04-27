@@ -4,6 +4,7 @@ import './Styles/Login.css';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { CSVLink } from "react-csv";
 
 function Admin2() {
     const [publicaciones, setpublicaciones] = useState([]);
@@ -49,7 +50,7 @@ function Admin2() {
             .catch(error => console.error("Error al eliminar el usuario:", error));
     };
 
-    const verPost= (post) => {
+    const verPost = (post) => {
         setpostSelec(post);
     };
 
@@ -71,7 +72,7 @@ function Admin2() {
                         <li style={{ color: "white", marginRight: "35px" }}>
                             {/* El link nos ayuda a navegar entre componentes, parecido al navigate */}
                             <Link style={{ color: "white", textDecoration: "none" }} to="/admin">
-                               Usuarios
+                                Usuarios
                             </Link>
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
@@ -81,12 +82,12 @@ function Admin2() {
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
                             <Link style={{ color: "white", textDecoration: "none" }} to="/admin2">
-                                  Carga Usuarios
+                                Carga Usuarios
                             </Link>
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
                             <Link style={{ color: "white", textDecoration: "none" }} to="/admin2">
-                                  Carga Publicaciones
+                                Carga Publicaciones
                             </Link>
                         </li>
                     </ul>
@@ -97,62 +98,75 @@ function Admin2() {
                     </button>
                 </div>
             </div>
-        <div style={{ display: "flex", alignItems: "center", height: "100vh", width: "100%" }}>
-            <div className="table-container">
-                <table className="table table-bordered text-center">
-                    <thead className="table-dark">
-                        <tr>
-                            <th>Id</th>
-                            <th>Descripcion</th>
-                            <th>Categoria</th>
-                            <th>Usuario</th>
-                            <th>Informacion USAC</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {publicaciones.map(post => (
-                            <tr key={post.id}>
-                                <td>{post.id}</td>
-                                <td>{post.descripcion}</td>
-                                <td>{post.categoria}</td>
-                                <td>{post.nombre}{post.apellido}</td>
-                                <td>{post.carfacu}</td>
-                                <td>{post.fecha}</td>
-                                <td>
-                                    <button className="btn btn-outline-danger" onClick={() => eliminaPost(post.id)} style={{marginRight:"5%"}}>
-                                        Eliminar
-                                    </button>
-                                    <button className="btn btn-outline-warning" onClick={() => verPost(post)}>Ver</button>
-                                </td>
+            <div style={{ display: "flex", alignItems: "center", height: "100vh", width: "100%" }}>
+                <div className="table-container">
+                    <div>
+                        <CSVLink data={publicaciones.map(post => ({
+                            ID: post.id,
+                            DESCRIPCION: post.descripcion,
+                            CATEGORIA: post.categoria,
+                            USUARIO: `${post.nombre} ${post.apellido}`,
+                            INFORMACION_USAC: post.carfacu,
+                            FECHA: post.fecha
+                        }))}
+                            filename='PUBLICACIONES'>
+                            <button className='btn btn-success'>Exportar CSV</button>
+                        </CSVLink>
+                    </div>
+                    <table className="table table-bordered text-center">
+                        <thead className="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Descripcion</th>
+                                <th>Categoria</th>
+                                <th>Usuario</th>
+                                <th>Informacion USAC</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-    
-                {postSelec && (
-                    <Modal show={true} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Detalles del Usuario</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <p><strong>Id:</strong> {postSelec.id}</p>
-                            <p><strong>Descripcion:</strong> {postSelec.descripcion}</p>
-                            <p><strong>Categoria:</strong> {postSelec.categoria}</p>
-                            <p><strong>Usuario:</strong> {postSelec.nombre}{postSelec.apellido}</p>
-                            <p><strong>Informacion USAC:</strong> {postSelec.carfacu}</p>
-                            <p><strong>Fecha:</strong> {postSelec.fecha}</p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
-                                Cerrar
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                )}
+                        </thead>
+                        <tbody>
+                            {publicaciones.map(post => (
+                                <tr key={post.id}>
+                                    <td>{post.id}</td>
+                                    <td>{post.descripcion}</td>
+                                    <td>{post.categoria}</td>
+                                    <td>{post.nombre}{post.apellido}</td>
+                                    <td>{post.carfacu}</td>
+                                    <td>{post.fecha}</td>
+                                    <td>
+                                        <button className="btn btn-outline-danger" onClick={() => eliminaPost(post.id)} style={{ marginRight: "5%" }}>
+                                            Eliminar
+                                        </button>
+                                        <button className="btn btn-outline-warning" onClick={() => verPost(post)}>Ver</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    {postSelec && (
+                        <Modal show={true} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Detalles del Usuario</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <p><strong>Id:</strong> {postSelec.id}</p>
+                                <p><strong>Descripcion:</strong> {postSelec.descripcion}</p>
+                                <p><strong>Categoria:</strong> {postSelec.categoria}</p>
+                                <p><strong>Usuario:</strong> {postSelec.nombre}{postSelec.apellido}</p>
+                                <p><strong>Informacion USAC:</strong> {postSelec.carfacu}</p>
+                                <p><strong>Fecha:</strong> {postSelec.fecha}</p>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Cerrar
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    )}
+                </div>
             </div>
-        </div>
         </Fragment>
     );
 }

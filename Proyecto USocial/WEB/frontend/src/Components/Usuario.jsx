@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+
 function Usuario() {
     // Se declaran los estados iniciales
     const [posts, setPosts] = useState([]);
@@ -13,6 +14,9 @@ function Usuario() {
     const [likes, setLikes] = useState(1);
 
     const [SiLike, setSiLike] = useState(false);
+
+    
+
 
     const onBotonLikeClick = () =>{
         setLikes(likes + (SiLike ? -1 : 1));
