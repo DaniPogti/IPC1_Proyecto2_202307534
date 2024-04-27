@@ -188,25 +188,25 @@ servidor.delete("/usuarios/:carnet", (req, res) => { // eliminar elementos a mat
 
 });
 
-//--------------ELIMINAR USUARIO----------------------
-servidor.delete("/usuarios/:carnet", (req, res) => { // eliminar elementos a matriz req para obtener info
-    const carnet = parseInt(req.params.carnet);
+//--------------ELIMINAR PUBLICACION----------------------
+servidor.delete("/getPublicaciones/:id", (req, res) => { // eliminar elementos a matriz req para obtener info
+    const id = parseInt(req.params.id);
     // const actualizarEstudiante = req.body;
-    console.log(carnet)
-    const indice = dataUsuarios.findIndex(usuario => {//encontrar el indice donde se encuentra el objeto 
-        console.log(usuario.carnet)
-        if(usuario.carnet === carnet){
+    console.log(id)
+    const indice = dataPublicaciones.findIndex(post => {//encontrar el indice donde se encuentra el objeto 
+        console.log(post.id)
+        if(post.id === id){
             console.log("Elemento encontrado")
-            return usuario
+            return post
         }
     });
 
     if (indice === -1) {
         res.status(404).send({ response: 'NO SE ENCONTRO!!!' })
     } else {
-        dataUsuarios.splice(indice, 1);
-        actualizarDatosArchivo();
-        res.status(201).send({ response: "Eliminado CORRECTAMENTE" });
+        dataPublicaciones.splice(indice, 1);
+        actualizarDatosArchivo2();
+        res.status(201).send({ response: "Post Eliminado CORRECTAMENTE" });
     }
 
 

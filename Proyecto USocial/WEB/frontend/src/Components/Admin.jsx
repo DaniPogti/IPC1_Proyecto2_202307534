@@ -77,17 +77,17 @@ function Admin() {
                             </Link>
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
-                            <Link style={{ color: "white", textDecoration: "none" }} to="/crearPost">
+                            <Link style={{ color: "white", textDecoration: "none" }} to="/admin2">
                                 Publicaciones
                             </Link>
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
-                            <Link style={{ color: "white", textDecoration: "none" }} to="/editar">
+                            <Link style={{ color: "white", textDecoration: "none" }} to="/admin2">
                                   Carga Usuarios
                             </Link>
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
-                            <Link style={{ color: "white", textDecoration: "none" }} to="/editar">
+                            <Link style={{ color: "white", textDecoration: "none" }} to="/admin2">
                                   Carga Publicaciones
                             </Link>
                         </li>

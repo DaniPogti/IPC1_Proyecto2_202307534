@@ -5,6 +5,7 @@ import Usuario from '../Usuario';
 import CreatePost from '../CrearPost';
 import Registro from '../Registro';
 import Editar from '../Editar';
+import Admin2 from '../Admin2';
 
 //import Editar from '../Editar';
 
@@ -17,6 +18,7 @@ function Router() {
                 <Route path='/' element={<Navigate to="/login" />} />
                 <Route path='/login' element={<Login/>} />
                 <Route path='/admin' element={<Admin/>} />
+                <Route path='/admin2' element={<Admin2/>} />
                 <Route path='/usuario' element={<Usuario/>} />
                 <Route path='/crearPost' element={<CreatePost/>} />
                 <Route path='/registro' element={<Registro/>} />
