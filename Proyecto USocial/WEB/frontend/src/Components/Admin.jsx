@@ -67,7 +67,7 @@ function Admin() {
         navigate('/login')
     };
 
-
+    
 
     return (
         <Fragment>
@@ -86,12 +86,12 @@ function Admin() {
                             </Link>
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
-                            <Link style={{ color: "white", textDecoration: "none" }} to="/admin2">
+                            <Link style={{ color: "white", textDecoration: "none" }} to="/cargarUsuario">
                                 Carga Usuarios
                             </Link>
                         </li>
                         <li style={{ color: "white", marginRight: "35px" }}>
-                            <Link style={{ color: "white", textDecoration: "none" }} to="/admin2">
+                            <Link style={{ color: "white", textDecoration: "none" }} to="/cargarPost">
                                 Carga Publicaciones
                             </Link>
                         </li>

@@ -50,7 +50,7 @@ function Login() {
                     //navigate('/admin')
                     if (dataUser.rol === 0) {
                         navigate('/admin')
-                    } else if (dataUser.rol === 1) {
+                    } else{
                         navigate('/usuario')
                     }
                 } else {

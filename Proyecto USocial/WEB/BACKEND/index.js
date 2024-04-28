@@ -51,7 +51,7 @@ servidor.get("/getPublicaciones", (req, res) => { // obtiene la matriz
     res.json(dataPublicaciones)
 });
 //--------------FILATRAR POR CARNETS----------------------
-servidor.get("/usuarios/:carnet", (req, res) => { // filtrar datos por variable carnet
+servidor.get("/usuarios/:carnet", (req, res) => { // filtrar datos por  carnet
     const carnet = parseInt(req.params.carnet);
     console.log("Carnet buscado:", carnet);
     const usuario = dataUsuarios.find(usuarios => usuarios.carnet === carnet);
@@ -84,6 +84,48 @@ servidor.post("/usuarios", (req, res) => { // añadir elementos a matriz req par
 
 });
 
+//--------------CARGA MASIVA USUARIO----------------------
+servidor.post("/cargauser", (req, res) => {
+    const cargauser = req.body;
+    const usercarga = [];
+    // Recorremos los nuevos usuarios y los agregamos al array dataUsuarios
+    cargauser.forEach((carga) => {
+        // Si el usuario se repite
+        const userRepetido = dataUsuarios.find((user) => user.carnet === carga.carnet);
+        if (userRepetido) {
+            // si existe se salta el user
+            console.log(`${carga.carnet}Este usuario ya existia, :(`);
+        } else {
+            dataUsuarios.push(carga);
+            usercarga.push(carga);// se añade el user
+            console.log(`Se añadio: ${JSON.stringify(carga)}`);
+        }
+    });
+    actualizarDatosArchivo(); 
+    res.status(201).json({ usuariosAñadidos }); // se envia el usuario almacenado
+});
+
+//--------------CARGA MASIVA POST----------------------
+servidor.post("/cargapost", (req, res) => {
+    const cargapost = req.body;
+    const postcarga = [];
+    // Recorremos los nuevos usuarios y los agregamos al array dataUsuarios
+    cargapost.forEach((carga) => {
+        // Si el usuario se repite
+        const Repetido = dataPublicaciones.find((post) => post.id === carga.id);
+        if (Repetido) {
+            // si existe se salta el post
+            console.log(`${carga.id}Este usuario ya existia, :(`);
+        } else {
+            dataPublicaciones.push(carga);
+            postcarga.push(carga);// se añade el post
+            console.log(`Se añadio: ${JSON.stringify(carga)}`);
+        }
+    });
+    actualizarDatosArchivo2(); 
+    res.status(201).json({ postAñadidos }); // se envia el usuario almacenado
+});
+
 //--------------AÑADIR PUBLICACION NUEVO----------------------
 servidor.post("/crearPublicacion", (req, res) => { // añadir elementos a matriz req para obtener info
     const nuevoPost = req.body;
@@ -97,13 +139,13 @@ servidor.post("/crearPublicacion", (req, res) => { // añadir elementos a matriz
         like: nuevoPost.like,
         fecha: nuevoPost.fecha
     };
-    dataPublicaciones.push(guardarPost); //push agrega elementos en javascrip
-    actualizarDatosArchivo2(); //llamar metodo para actualizar
+    dataPublicaciones.push(guardarPost); //push a java
+    actualizarDatosArchivo2(); //actualizar
     res.status(201).send({ response: "PUBLICACION AÑADIDO CORRECTAMENTE" })
 
 });
 
-//recibir y validar datos del usuario a loggear, validando la contraseña que sea correcta dentro del arreglo
+//recibir y validar datos del usuario a loggear, validando contraseña 
 servidor.post('/login', (req, res) => {
     const datos = req.body;
     console.log(datos)//imprimir en terminal
@@ -134,7 +176,7 @@ servidor.post('/login', (req, res) => {
 servidor.put("/usuarios/:carnet", (req, res) => { // edidat elementos a matriz req para obtener info
     const carnet = parseInt(req.params.carnet);
     const actualizarUsuario = req.body;
-    const indice = dataUsuarios.findIndex(usuarios => usuarios.carnet === carnet)//encontrar el indice donde se encuentra el objeto 
+    const indice = dataUsuarios.findIndex(usuarios => usuarios.carnet === carnet)//encontrar el indice donde se encuentra el user 
     if (indice === -1) {
         res.status(404).send({ response: 'NO SE ENCONTRO!!!' })
     } else {
@@ -151,10 +193,10 @@ servidor.put("/usuarios/:carnet", (req, res) => { // edidat elementos a matriz r
 });
 
 //--------------ACTUALIZAR PUBLICACION----------------------
-servidor.put("/getPublicaciones/:id", (req, res) => { // edidat elementos a matriz req para obtener info
+servidor.put("/getPublicaciones/:id", (req, res) => { 
     const id = parseInt(req.params.id);
     const actualizarLike = req.body;
-    const indice = dataPublicaciones.findIndex(publicacion => publicacion.id === id)//encontrar el indice donde se encuentra el objeto 
+    const indice = dataPublicaciones.findIndex(publicacion => publicacion.id === id)
     if (indice === -1) {
         res.status(404).send({ response: 'NO SE ENCONTRO!!!' })
     } else {
@@ -165,11 +207,11 @@ servidor.put("/getPublicaciones/:id", (req, res) => { // edidat elementos a matr
 });
 
 //--------------ELIMINAR USUARIO----------------------
-servidor.delete("/usuarios/:carnet", (req, res) => { // eliminar elementos a matriz req para obtener info
+servidor.delete("/usuarios/:carnet", (req, res) => { // eliminar elementos a matriz
     const carnet = parseInt(req.params.carnet);
     // const actualizarEstudiante = req.body;
     console.log(carnet)
-    const indice = dataUsuarios.findIndex(usuario => {//encontrar el indice donde se encuentra el objeto 
+    const indice = dataUsuarios.findIndex(usuario => {//encontrar el indice donde se encuentra 
         console.log(usuario.carnet)
         if(usuario.carnet === carnet){
             console.log("Elemento encontrado")
@@ -189,11 +231,11 @@ servidor.delete("/usuarios/:carnet", (req, res) => { // eliminar elementos a mat
 });
 
 //--------------ELIMINAR PUBLICACION----------------------
-servidor.delete("/getPublicaciones/:id", (req, res) => { // eliminar elementos a matriz req para obtener info
+servidor.delete("/getPublicaciones/:id", (req, res) => { // eliminar elementos a matriz 
     const id = parseInt(req.params.id);
     // const actualizarEstudiante = req.body;
     console.log(id)
-    const indice = dataPublicaciones.findIndex(post => {//encontrar el indice donde se encuentra el objeto 
+    const indice = dataPublicaciones.findIndex(post => {//encontrar el indice 
         console.log(post.id)
         if(post.id === id){
             console.log("Elemento encontrado")
